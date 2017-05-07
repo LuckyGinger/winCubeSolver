@@ -77,6 +77,7 @@ Vec3b avgColor(Mat image)
 		{
 			Vec3b bgrPixel = image.at<Vec3b>(y, x);
 
+			// Center Color
 			if (x > centerX - 48 && x < centerX + 48 &&
 				y > centerY - 48 && y < centerY + 48)
 			{
@@ -93,12 +94,16 @@ Vec3b avgColor(Mat image)
 	avgG = avgG / counter;
 	avgR = avgR / counter;
 
-	Vec3b avgColor(avgB, avgG, avgR);
+	Vec3b c2Color(avgB, avgG, avgR);
 
-	return avgColor;
+	vector<Vec3b> avgColors
+
+
+
+	return avgColors;
 }
 
-void drawAvgColor(Mat image, Vec3b avgColor)
+void drawAvgColor(Mat image, vector<Vec3b> avgColors)
 {
 	int maxY = image.rows;
 	int maxX = image.cols;
@@ -108,10 +113,11 @@ void drawAvgColor(Mat image, Vec3b avgColor)
 
 		for (int x = 0; x < image.cols; x++) // x = cols
 		{
+			// Center Color
 			if (x > maxX - 150 && x < maxX - 50 &&
 				y > 20 && y < 120)
 			{
-				image.at<Vec3b>(y, x) = avgColor;
+				image.at<Vec3b>(y, x) = avgColors[4];
 			}
 
 
@@ -160,7 +166,7 @@ int main(int argc, char** argv)
 
 		cap.read(image);
 		
-
+		// 
 		drawLines(image);
 		drawAvgColor(image, avgColor(image));
 		imshow("Image", image);
