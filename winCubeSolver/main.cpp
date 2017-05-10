@@ -92,7 +92,6 @@ Vec3b *avgColor(Mat image)
 		for (int j = 0; j < BGR; j++)
 			avgColorArray[i][j] = 0;
 
-	int counter = 0;
 	for (int y = 0; y < image.rows; y++) // y = rows  
 	{
 
@@ -110,18 +109,99 @@ Vec3b *avgColor(Mat image)
 				avgColorArray[0][2] += t1bgrPixel[2]; // Red
 				image.at<Vec3b>(y, x) = t1bgrPixel;
 			}
-			// Center Color
-			if (x > centerX - 48 && x < centerX + 48 &&
+			// Top Middle Color
+			else if (x > centerX - 48 && x < centerX + 48 &&
+				y > centerY - 148 && y < centerY - 52)
+			{
+				Vec3b t2bgrPixel = image.at<Vec3b>(y, x);
+
+				avgColorArray[1][0] += t2bgrPixel[0]; // Blue
+				avgColorArray[1][1] += t2bgrPixel[1]; // Green
+				avgColorArray[1][2] += t2bgrPixel[2]; // Red
+				image.at<Vec3b>(y, x) = t2bgrPixel;
+			}
+			// Top Right Color
+			else if (x > centerX + 52 && x < centerX + 148 &&
+				y > centerY - 148 && y < centerY - 52)
+			{
+				Vec3b t3bgrPixel = image.at<Vec3b>(y, x);
+
+				avgColorArray[2][0] += t3bgrPixel[0]; // Blue
+				avgColorArray[2][1] += t3bgrPixel[1]; // Green
+				avgColorArray[2][2] += t3bgrPixel[2]; // Red
+				image.at<Vec3b>(y, x) = t3bgrPixel;
+
+			}
+			// Center Left Color
+			else if (x > centerX - 148 && x < centerX - 52 &&
+				y > centerY - 48 && y < centerY + 48)
+			{
+				Vec3b c1bgrPixel = image.at<Vec3b>(y, x);
+
+				avgColorArray[3][0] += c1bgrPixel[0]; // Blue
+				avgColorArray[3][1] += c1bgrPixel[1]; // Green
+				avgColorArray[3][2] += c1bgrPixel[2]; // Red
+				image.at<Vec3b>(y, x) = c1bgrPixel;
+			}
+			// Center Middle Color
+			else if (x > centerX - 48 && x < centerX + 48 &&
 				y > centerY - 48 && y < centerY + 48)
 			{
 				Vec3b bgrPixel = image.at<Vec3b>(y, x);
 
-				counter++;
 				avgColorArray[4][0] += bgrPixel[0]; // Blue
 				avgColorArray[4][1] += bgrPixel[1]; // Green
 				avgColorArray[4][2] += bgrPixel[2]; // Red
 				image.at<Vec3b>(y, x) = bgrPixel;
 			}
+			// Center Right Color
+			else if (x > centerX + 52 && x < centerX + 148 &&
+				y > centerY - 48 && y < centerY + 48)
+			{
+				Vec3b c3bgrPixel = image.at<Vec3b>(y, x);
+
+				avgColorArray[5][0] += c3bgrPixel[0]; // Blue
+				avgColorArray[5][1] += c3bgrPixel[1]; // Green
+				avgColorArray[5][2] += c3bgrPixel[2]; // Red
+				image.at<Vec3b>(y, x) = c3bgrPixel;
+			}
+			// Bottom Left Color
+			else if (x > centerX - 148 && x < centerX - 52 &&
+				y > centerY + 52 && y < centerY + 148)
+			{
+				Vec3b b1bgrPixel = image.at<Vec3b>(y, x);
+
+				avgColorArray[6][0] += b1bgrPixel[0]; // Blue
+				avgColorArray[6][1] += b1bgrPixel[1]; // Green
+				avgColorArray[6][2] += b1bgrPixel[2]; // Red
+				image.at<Vec3b>(y, x) = b1bgrPixel;
+
+			}
+			// Bottom Middle Color
+			else if (x > centerX - 48 && x < centerX + 48 &&
+				y > centerY + 52 && y < centerY + 148)
+			{
+				Vec3b b2bgrPixel = image.at<Vec3b>(y, x);
+
+				avgColorArray[7][0] += b2bgrPixel[0]; // Blue
+				avgColorArray[7][1] += b2bgrPixel[1]; // Green
+				avgColorArray[7][2] += b2bgrPixel[2]; // Red
+				image.at<Vec3b>(y, x) = b2bgrPixel;
+
+			}
+			// Bottom Right Color
+			else if (x > centerX + 52 && x < centerX + 148 &&
+				y > centerY + 52 && y < centerY + 148)
+			{
+				Vec3b b3bgrPixel = image.at<Vec3b>(y, x);
+
+				avgColorArray[8][0] += b3bgrPixel[0]; // Blue
+				avgColorArray[8][1] += b3bgrPixel[1]; // Green
+				avgColorArray[8][2] += b3bgrPixel[2]; // Red
+				image.at<Vec3b>(y, x) = b3bgrPixel;
+
+			}
+
 		}
 	}
 
@@ -207,11 +287,6 @@ void drawAvgColor(Mat image, Vec3b avgColors[])
 			else if (x > maxX - 120 && x < maxX - 90 &&
 				y > 50 && y < 80)
 			{
-				/*cout << "second" << endl;
-				for (int i = 0; i < X33SIDE; i++)
-				{
-					cout << i << avgColors[i] << endl;
-				}*/
 				image.at<Vec3b>(y, x) = avgColors[4];
 			}
 			// Center Right Color
@@ -255,7 +330,7 @@ int main(int argc, char** argv)
 
 	namedWindow("Image", CV_WINDOW_AUTOSIZE);
 
-	cap.open(0);
+	cap.open(1);
 	if (!cap.isOpened())
 	{
 		printf("--(!)Error opening video capture\n");
